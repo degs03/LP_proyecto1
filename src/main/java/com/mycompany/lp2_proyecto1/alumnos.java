@@ -5,6 +5,8 @@
 package com.mycompany.lp2_proyecto1;
 
 import java.sql.CallableStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -97,7 +99,25 @@ public class alumnos {
         model.addColumn("Nombre");
         model.addColumn("Apellido");
         model.addColumn("Edad");
-        model.addColumn("Direccion");
+        model.addColumn("Direccion");   
+        sql = "select * from alumnos";
+        String [] datos = new String[5];
+        Statement st; //crea una conexion sql
+        try{  
+            st = objetoConexion.establecerConexcion().createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                datos[0] = rs.getString(1);
+                datos[1] = rs.getString(2);
+                datos[2] = rs.getString(3);
+                datos[3] = rs.getString(4);
+                datos[4] = rs.getString(5);
+                model.addRow(datos);
+            }
+            paramtabla.setModel(model);
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Error al mostrar registros: " + e.toString());
+        }
     }
 }
 
